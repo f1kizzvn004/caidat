@@ -8,7 +8,7 @@ read -p "  Vui Lòng Nhập : " num
         1) apt-get update && apt install iptables-persistent netfilter-persistent -y && bash <(curl -Ls https://raw.githubusercontent.com/quoctai020901/speedtest/main/blockip.sh)
         clear && echo "   DONE !"
         ;;
-        2) bash <(curl -Ls https://raw.githubusercontent.com/quoctai020901/speedtest/main/blockip.sh)
+        2) bash <(curl -Ls https://raw.githubusercontent.com/quoctai020901/speedtest/main/blockip.sh) && clear && echo "   DONE !"
         ;;
         3) iptables -F && clear && echo "   DONE !"
         ;;
