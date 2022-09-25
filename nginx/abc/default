@@ -54,7 +54,7 @@ server {
                 proxy_set_header Connection "upgrade";
                 proxy_set_header Host $http_host;
         }
-        location /443.hatde.com {
+        location /443.4ghatde.com {
                
                grpc_pass grpcs://127.0.0.1:500;
                 grpc_set_header X-Real-IP $remote_addr;
