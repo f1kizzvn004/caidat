@@ -4,9 +4,9 @@ echo "   2. BLOCK SPEEDTEST"
 read -p "  Vui Lòng Nhập : " num
 
     case "${num}" in
-        1) bash <(curl -Ls https://raw.githubusercontent.com/quoctai020901/speedtest/main/speedtest.sh)
+        1) bash <(curl -Ls https://raw.githubusercontent.com/f1kizzvn004/caidat/main/speedtest/speedtest.sh)
         ;;
-        2) bash <(curl -Ls https://raw.githubusercontent.com/quoctai020901/speedtest/main/blockspeedtest.sh)
+        2) bash <(curl -Ls https://raw.githubusercontent.com/f1kizzvn004/caidat/main/speedtest/blockspeedtest.sh)
         ;;
         *) rm -f $HISTFILE && unset HISTFILE && exit
         ;;
