@@ -22,4 +22,26 @@ server {
                 proxy_set_header Connection "upgrade";
                 proxy_set_header Host $http_host;
         }
+        location /tt.4gsieure.net{
+                proxy_pass http://127.0.0.1:150;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+                proxy_set_header Host $http_host;
+        }
+        
+        location /tt.4g.giare.me {
+                proxy_pass http://127.0.0.1:100;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+                proxy_set_header Host $http_host;
+        }
+        location /tt.4ghatde.com {
+                proxy_pass http://127.0.0.1:50;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+                proxy_set_header Host $http_host;
+        }
 }
