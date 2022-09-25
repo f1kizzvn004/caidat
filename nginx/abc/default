@@ -1,0 +1,25 @@
+server {
+        listen 80;
+        location /4gsieure.net{
+                proxy_pass http://127.0.0.1:399;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+                proxy_set_header Host $http_host;
+        }
+        
+        location /4g.giare.me {
+                proxy_pass http://127.0.0.1:299;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+                proxy_set_header Host $http_host;
+        }
+        location /4ghatde.com {
+                proxy_pass http://127.0.0.1:199;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+                proxy_set_header Host $http_host;
+        }
+}
