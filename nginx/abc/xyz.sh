@@ -10,10 +10,10 @@ read -p "  Vui lòng chọn một số và nhấn Enter (Enter theo mặc địn
         1) apt update -y && apt install nginx -y && ufw allow 'Nginx HTTP'
         cd /etc/nginx/sites-available && rm -rf default
         
-       https://raw.githubusercontent.com/f1kizzvn004/caidat/main/nginx/abc/default
+         wget https://raw.githubusercontent.com/f1kizzvn004/caidat/main/nginx/abc/default
        
        cd /etc/nginx && rm -rf nginx.conf
-        https://raw.githubusercontent.com/f1kizzvn004/caidat/main/nginx/abc/nginx.conf
+      wget https://raw.githubusercontent.com/f1kizzvn004/caidat/main/nginx/abc/nginx.conf
  systemctl restart nginx && systemctl enable nginx && systemctl status nginx
         
         ;;
