@@ -5,6 +5,6 @@ EOF
   chmod +x cron.sh
   cd /etc/cron.d
   cat >cron <<EOF
-  */5 * * * * root /usr/local/auto/cron.sh
+  */1 * * * * root /usr/local/auto/cron.sh
 EOF
 cd /root
