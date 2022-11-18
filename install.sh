@@ -1,48 +1,42 @@
-#!/usr/bin/env bash
-PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
-export PATH
-
-# Current folder
-cur_dir=$(pwd)
-# Color
-red='\033[0;31m'
-green='\033[0;32m'
-#yellow='\033[0;33m'
-plain='\033[0m'
-operation=(install update )
-# Make sure only root can run our script
-[[ $EUID -ne 0 ]] && echo -e "[${red}Error${plain}] Chưa vào root kìa !, vui lòng xin phép ROOT trước!" && exit 1
-
-
-# Pre-installation settings
-pre_install() {
- echo -e "[1] 4ghatde.com"
+clear
+echo "   1. Cài đặt"
+echo "   2. update"
+read -p "  Vui lòng chọn một số và nhấn Enter (Enter theo mặc định Cài đặt)  " num
+[ -z "${num}" ] && num="1"
+	
+pre_install(){
+ clear
+	read -p "Nhập số web cần cài và nhấn Enter (Enter theo mặc định 1) " n
+	 [ -z "${n}" ] && n="1"
+    a=0
+  while [ $a -lt $n ]
+ do
+  echo " Web số $((a+1))"
+  echo -e "[1] 4ghatde.com"
   echo -e "[2] 4g.giare.me"
   echo -e "[3] 4gsieure.net"
+  echo -e "[4] thegioi4g.com"
   read -p "Web đang sử dụng:" api_host
   if [ "$api_host" == "1" ]; then
-    api_host="https://4ghatde.com"
+    api_host="4ghatde.com"
   elif [ "$api_host" == "2" ]; then
-    api_host="https://4g.giare.me"
+    api_host="4g.giare.me"
     elif [ "$api_host" == "3" ]; then
-    api_host="https://4gsieure.net"
+    api_host="4gsieure.net"
+    elif [ "$api_host" == "4" ]; then
+    api_host="thegioi4g.com"
   else 
-    api_host="https://4ghatde.com"
+    api_host="4ghatde.com"
   fi
 
+    # read -p " Nhập web (bao gồm https://):" api_host
+    # [ -z "${api_host}" ] && api_host=0
   echo "--------------------------------"
   echo "Bạn đã chọn ${api_host}"
   echo "--------------------------------"
   
-  #key web:
-# read -p "key web: " ApiKey
- # [ -z "${ApiKey}" ] && ApiKey="0"
- # echo "-------------------------------"
- # echo "key web: ${ApiKey}"
- # echo "-------------------------------"
-
   
-  read -p " ID nút (Node_ID):" node_id
+    read -p " ID nút (Node_ID):" node_id
   [ -z "${node_id}" ] && node_id=0
   echo "-------------------------------"
   echo -e "Node_ID: ${node_id}"
@@ -64,47 +58,33 @@ read -p "Giới hạn tốc độ :" SpeedLimit
   echo "Tốc Độ tối đa là: ${SpeedLimit}"
   echo "-------------------------------"
   
-   #IP vps
+  #IP vps
  read -p "Nhập domain :" CertDomain
   [ -z "${CertDomain}" ] && CertDomain="0"
  echo "-------------------------------"
   echo "ip : ${CertDomain}"
  echo "-------------------------------"
-  
-  
+
+ config
+  a=$((a+1))
+  done
 }
 
- # Config 
-config_xrayr() {
-  # cd ${cur_dir} || exit
-  cd /etc/XrayR
-  cat >config.yml <<EOF
-Log:
-  Level: none # Log level: none, error, warning, info, debug 
-  AccessPath: # /etc/XrayR/access.Log
-  ErrorPath: # /etc/XrayR/error.log
-DnsConfigPath: # /etc/XrayR/dns.json Path to dns config, check https://xtls.github.io/config/base/dns/ for help
-RouteConfigPath: # /etc/XrayR/route.json # Path to route config, check https://xtls.github.io/config/base/route/ for help
-OutboundConfigPath: # /etc/XrayR/custom_outbound.json # Path to custom outbound config, check https://xtls.github.io/config/base/outbound/ for help
-ConnetionConfig:
-  Handshake: 4 # Handshake time limit, Second
-  ConnIdle: 10 # Connection idle time limit, Second
-  UplinkOnly: 2 # Time limit when the connection downstream is closed, Second
-  DownlinkOnly: 4 # Time limit when the connection is closed after the uplink is closed, Second
-  BufferSize: 64 # The internal cache size of each connection, kB 
-Nodes:
+config(){
+cd /etc/XrayR
+cat >>config.yml<<EOF
   -
     PanelType: "V2board" # Panel type: SSpanel, V2board, PMpanel, Proxypanel
     ApiConfig:
-      ApiHost: "https://4ghatde.com"
+      ApiHost: "https://$api_host"
       ApiKey: "phamvanquoctai0209"
-      NodeID: 41
+      NodeID: $node_id
       NodeType: V2ray # Node type: V2ray, Trojan, Shadowsocks, Shadowsocks-Plugin
       Timeout: 30 # Timeout for the api request
       EnableVless: false # Enable Vless for V2ray Type
       EnableXTLS: false # Enable XTLS for V2ray and Trojan
-      SpeedLimit: 0 # Mbps, Local settings will replace remote settings, 0 means disable
-      DeviceLimit: 0 # Local settings will replace remote settings, 0 means disable
+      SpeedLimit: $SpeedLimit # Mbps, Local settings will replace remote settings, 0 means disable
+      DeviceLimit: $DeviceLimit # Local settings will replace remote settings, 0 means disable
       RuleListPath: # /etc/XrayR/rulelist Path to local rulelist file
     ControllerConfig:
       ListenIP: 0.0.0.0 # IP address you want to listen
@@ -126,7 +106,7 @@ Nodes:
           ProxyProtocolVer: 0 # Send PROXY protocol version, 0 for dsable
       CertConfig:
         CertMode: file # Option about how to get certificate: none, file, http, dns. Choose "none" will forcedly disable the tls config.
-        CertDomain: "node1.test.com" # Domain to cert
+        CertDomain: "$CertDomain" # Domain to cert
         CertFile: /etc/XrayR/4ghatde.crt # Provided if the CertMode is file
         KeyFile: /etc/XrayR/4ghatde.key
         Provider: alidns # DNS cert provider, Get the full support list here: https://go-acme.github.io/lego/dns/
@@ -135,65 +115,58 @@ Nodes:
           ALICLOUD_ACCESS_KEY: aaa
           ALICLOUD_SECRET_KEY: bbb
 EOF
-   sed -i "s|ApiHost:.*|ApiHost: \"${api_host}\"|" ./config.yml
- # sed -i "s|ApiKey:.*|ApiKey: \"${ApiKey}\"|" ./config.yml
-  sed -i "s|NodeID:.*|NodeID: ${node_id}|" ./config.yml
-  sed -i "s|DeviceLimit:.*|DeviceLimit: ${DeviceLimit}|" ./config.yml
-  sed -i "s|SpeedLimit:.*|SpeedLimit: ${SpeedLimit}|" ./config.yml
-  sed -i "s|CertDomain:.*|CertDomain: \"${CertDomain}\"|" ./config.yml
-  
+
+#   sed -i "s|ApiHost: \"https://domain.com\"|ApiHost: \"${api_host}\"|" ./config.yml
+ # sed -i "s|ApiKey:.*|ApiKey: \"${ApiKey}\"|" 
+#   sed -i "s|NodeID: 41|NodeID: ${node_id}|" ./config.yml
+#   sed -i "s|DeviceLimit: 0|DeviceLimit: ${DeviceLimit}|" ./config.yml
+#   sed -i "s|SpeedLimit: 0|SpeedLimit: ${SpeedLimit}|" ./config.yml
+#   sed -i "s|CertDomain:\"node1.test.com\"|CertDomain: \"${CertDomain}\"|" ./config.yml
+ }
+
+case "${num}" in
+1) bash <(curl -Ls https://raw.githubusercontent.com/qtai2901/XrayR-release/main/install.sh)
 openssl req -newkey rsa:2048 -x509 -sha256 -days 365 -nodes -out /etc/XrayR/4ghatde.crt -keyout /etc/XrayR/4ghatde.key -subj "/C=JP/ST=Tokyo/L=Chiyoda-ku/O=Google Trust Services LLC/CN=google.com"
-  }
-
-# Update config 
-update_xrayr() {
-  
-  pre_install
-  config_xrayr
-  cd /root
-  echo "Bắt đầu chạy dịch vụ "
-  
-  xrayr restart
-}
-
-
-
-
-# Install xrayr 
-install_xrayr() {
-  bash <(curl -Ls https://raw.githubusercontent.com/qtai2901/XrayR-release/main/install.sh)
-  clear
-  pre_install
-  config_xrayr
-  cd /root
-  echo "Bắt đầu chạy dịch vụ "
-  xrayr start
-}
-
-
-
-# Initialization step
-clear
-while true; do
-  echo "-----XrayR của Tài  -----"
-  echo "Địa chỉ dự án và tài liệu trợ giúp: Chưa nghĩ ra  "
-  echo "Vui lòng nhập một số để Thực Hiện Câu Lệnh:"
-  for ((i = 1; i <= ${#operation[@]}; i++)); do
-    hint="${operation[$i - 1]}"
-    echo -e "${green}${i}${plain}) ${hint}"
-  done
-  read -p "Vui lòng chọn một số và nhấn Enter (Enter theo mặc định ${operation[0]}):" selected
-  [ -z "${selected}" ] && selected="1"
-  case "${selected}" in
-  1 | 2 )
-    echo
-    echo "Bắt Đầu : ${operation[${selected} - 1]}"
-    echo
-    ${operation[${selected} - 1]}_xrayr
-    break
-    ;;
-  *)
-    echo -e "[${red}Error${plain}] Vui lòng nhập số chính xác [1-8]"
-    ;;
-  esac
-done
+cd /etc/XrayR
+  cat >config.yml <<EOF
+Log:
+  Level: none # Log level: none, error, warning, info, debug 
+  AccessPath: # /etc/XrayR/access.Log
+  ErrorPath: # /etc/XrayR/error.log
+DnsConfigPath: # /etc/XrayR/dns.json Path to dns config, check https://xtls.github.io/config/base/dns/ for help
+RouteConfigPath: # /etc/XrayR/route.json # Path to route config, check https://xtls.github.io/config/base/route/ for help
+OutboundConfigPath: # /etc/XrayR/custom_outbound.json # Path to custom outbound config, check https://xtls.github.io/config/base/outbound/ for help
+ConnetionConfig:
+  Handshake: 4 # Handshake time limit, Second
+  ConnIdle: 10 # Connection idle time limit, Second
+  UplinkOnly: 2 # Time limit when the connection downstream is closed, Second
+  DownlinkOnly: 4 # Time limit when the connection is closed after the uplink is closed, Second
+  BufferSize: 64 # The internal cache size of each connection, kB 
+Nodes:
+EOF
+pre_install
+cd /root
+xrayr start
+ ;;
+ 2) cd /etc/XrayR
+cat >config.yml <<EOF
+Log:
+  Level: none # Log level: none, error, warning, info, debug 
+  AccessPath: # /etc/XrayR/access.Log
+  ErrorPath: # /etc/XrayR/error.log
+DnsConfigPath: # /etc/XrayR/dns.json Path to dns config, check https://xtls.github.io/config/base/dns/ for help
+RouteConfigPath: # /etc/XrayR/route.json # Path to route config, check https://xtls.github.io/config/base/route/ for help
+OutboundConfigPath: # /etc/XrayR/custom_outbound.json # Path to custom outbound config, check https://xtls.github.io/config/base/outbound/ for help
+ConnetionConfig:
+  Handshake: 4 # Handshake time limit, Second
+  ConnIdle: 10 # Connection idle time limit, Second
+  UplinkOnly: 2 # Time limit when the connection downstream is closed, Second
+  DownlinkOnly: 4 # Time limit when the connection is closed after the uplink is closed, Second
+  BufferSize: 64 # The internal cache size of each connection, kB 
+Nodes:
+EOF
+pre_install
+cd /root
+xrayr restart
+ ;;
+esac
