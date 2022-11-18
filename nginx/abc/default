@@ -34,7 +34,7 @@ server {
         }
                 
         location /lq.thegioi4g.com{
-                proxy_pass http://127.0.0.1:449;
+                proxy_pass http://127.0.0.1:499;
                 proxy_http_version 1.1;
                 proxy_set_header Upgrade $http_upgrade;
                 proxy_set_header Connection "upgrade";
@@ -58,8 +58,16 @@ server {
                 proxy_set_header Host $http_host;
         }
         
-        location /tt.thegioi4g,com{
-                proxy_pass http://127.0.0.1:156;
+        location /tt.4gsieure.net{
+                proxy_pass http://127.0.0.1:150;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+                proxy_set_header Host $http_host;
+        }
+        
+        location /tt.thegioi4g.com{
+                proxy_pass http://127.0.0.1:160;
                 proxy_http_version 1.1;
                 proxy_set_header Upgrade $http_upgrade;
                 proxy_set_header Connection "upgrade";
