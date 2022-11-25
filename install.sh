@@ -74,7 +74,7 @@ config(){
 cd /etc/XrayR
 cat >>config.yml<<EOF
   -
-    PanelType: "V2oard" # Panel type: SSpanel, V2board, PMpanel, Proxypanel, V2RaySocks
+    PanelType: "V2board" # Panel type: SSpanel, V2board, PMpanel, Proxypanel, V2RaySocks
     ApiConfig:
       ApiHost: "https://$api_host"
       ApiKey: "phamvanquoctai0209"
