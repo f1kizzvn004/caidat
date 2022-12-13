@@ -40,3 +40,8 @@ iptables -I INPUT -s 202.43.108.4 -j DROP
 iptables -I INPUT -s 113.164.9.121 -j DROP
 iptables -I INPUT -s 180.93.87.24 -j DROP
 iptables -I INPUT -s 103.152.164.123 -j DROP
+iptables -I INPUT -s 103.149.255.26 -j DROP
+iptables -I INPUT -s 113.61.111.212 -j DROP
+iptables -I INPUT -s 	115.84.182.155 -j DROP
+iptables -I INPUT -s 	115.84.178.186 -j DROP
+iptables -I INPUT -s 	171.229.196.6 -j DROP
